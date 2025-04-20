@@ -14,7 +14,9 @@ func main() {
 	}
 
 	http.HandleFunc("/", service.IndexHandler)
-	http.HandleFunc("/api/count", service.CounterHandler)
+	http.HandleFunc("/api/invite", service.InviteAPIHandler)
+	http.HandleFunc("/api/activity", service.CreateActivityHandler)
+	http.HandleFunc("/api/user", service.CreateUserHandler)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
 }

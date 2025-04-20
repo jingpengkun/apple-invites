@@ -298,3 +298,70 @@
 </script>
 
 </html>
+
+    <div class="card">
+      <div class="card-text">
+        <b>邀请系统后端接口说明：</b><br>
+        <ul style="text-align:left;font-size:13px;">
+          <li><b>CreateUser</b>：创建用户，参数 openId、nickname、avatarUrl，返回用户信息。</li>
+          <li><b>GetUserByOpenId</b>：根据 openId 查询用户，返回用户信息。</li>
+          <li><b>CreateActivity</b>：创建活动，参数 title、description、startTime、endTime，返回活动信息。</li>
+          <li><b>GetActivityById</b>：根据 id 查询活动详情。</li>
+          <li><b>CreateInvite</b>：创建邀请，参数 activityId、inviterId、inviteeId，返回邀请信息，初始状态为 pending。</li>
+          <li><b>UpdateInviteStatus</b>：更新邀请状态，参数 inviteId、status（如 accepted/rejected）。</li>
+          <li><b>ListInvitesByUser</b>：查询用户收到的所有邀请，参数 userId。</li>
+          <li><b>ListInvitesByActivity</b>：查询某活动下的所有邀请，参数 activityId。</li>
+        </ul>
+        <b>接口调用示例（伪代码）：</b><br>
+        <pre style="font-size:12px;text-align:left;">
+// 创建用户
+POST /api/user { openId, nickname, avatarUrl }
+// 查询用户
+GET /api/user?openId=xxx
+// 创建活动
+POST /api/activity { title, description, startTime, endTime }
+// 查询活动
+GET /api/activity?id=xxx
+// 创建邀请
+POST /api/invite { activityId, inviterId, inviteeId }
+// 更新邀请状态
+POST /api/invite/status { inviteId, status }
+// 查询收到的邀请
+GET /api/invites?userId=xxx
+// 查询活动下所有邀请
+GET /api/invites?activityId=xxx
+        </pre>
+      </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+  init();
+  function init() {
+    $.ajax("/api/count", {
+      method: "get",
+    }).done(function (res) {
+      if (res && res.data !== undefined) {
+        $(".count-number").html(res.data);
+      }
+    });
+  }
+  function set(action) {
+    $.ajax("/api/count", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        action: action,
+      }),
+    }).done(function (res) {
+      if (res && res.data !== undefined) {
+        $(".count-number").html(res.data);
+      }
+    });
+  }
+</script>
+
+</html>
